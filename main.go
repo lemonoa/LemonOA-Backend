@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 
-	"lemon-oa/internal/controller"
-	"lemon-oa/internal/middleware"
-	"lemon-oa/internal/service"
-	"lemon-oa/pkg/database"
+	"github.com/lemonoa/LemonOA-Go/database"
+
+	"github.com/lemonoa/LemonOA-Go/controller"
+	"github.com/lemonoa/LemonOA-Go/middleware"
+	"github.com/lemonoa/LemonOA-Go/service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -33,7 +34,6 @@ func init() {
 func main() {
 	r := gin.Default()
 
-	
 	// 配置跨域中间件
 	r.Use(func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")

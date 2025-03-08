@@ -1,14 +1,16 @@
 package main
 
 import (
-	"crypto/md5"
 	"crypto/rand"
+	"crypto/sha512"
 	"encoding/hex"
 	"fmt"
-	"lemon-oa/internal/model"
-	"lemon-oa/pkg/database"
 	"log"
 	"time"
+
+	"github.com/lemonoa/LemonOA-Go/database"
+
+	"github.com/lemonoa/LemonOA-Go/model"
 
 	"github.com/spf13/viper"
 )
@@ -163,7 +165,7 @@ func generateSalt() string {
 
 // 加密密码
 func encryptPassword(password, salt string) string {
-	hash := md5.New()
+	hash := sha512.New()
 	hash.Write([]byte(password + salt))
 	return hex.EncodeToString(hash.Sum(nil))
 }

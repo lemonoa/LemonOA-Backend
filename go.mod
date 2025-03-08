@@ -1,4 +1,4 @@
-module lemon-oa
+module github.com/lemonoa/LemonOA-Go
 
 go 1.21
 
