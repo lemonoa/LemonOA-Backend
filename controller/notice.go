@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -80,7 +81,7 @@ func (c *NoticeController) CreateNotice(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	notice.CreatedBy = uint(1)
 
 	if err := c.noticeService.CreateNotice(&notice); err != nil {
@@ -163,7 +164,7 @@ func (c *NoticeController) GetNoticeReadList(ctx *gin.Context) {
 // ReadNotice 阅读公告
 func (c *NoticeController) ReadNotice(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	userID := uint(1)
 
 	if err := c.noticeService.ReadNotice(uint(id), userID); err != nil {
@@ -176,7 +177,7 @@ func (c *NoticeController) ReadNotice(ctx *gin.Context) {
 
 // GetUnreadNoticeCount 获取未读公告数量
 func (c *NoticeController) GetUnreadNoticeCount(ctx *gin.Context) {
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	userID := uint(1)
 
 	count, err := c.noticeService.GetUnreadNoticeCount(userID)

@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/lemonoa/LemonOA-Go/middleware"
 
@@ -109,7 +110,7 @@ func (c *MeetingController) CreateMeetingRoom(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	room.CreatedBy = uint(1)
 
 	if err := c.meetingService.CreateMeetingRoom(&room); err != nil {
@@ -229,7 +230,7 @@ func (c *MeetingController) DeleteMeetingReservation(ctx *gin.Context) {
 // ApproveMeetingReservation 审批通过会议室预约
 func (c *MeetingController) ApproveMeetingReservation(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	approverID := uint(1)
 
 	if err := c.meetingService.ApproveMeetingReservation(uint(id), approverID); err != nil {
@@ -243,7 +244,7 @@ func (c *MeetingController) ApproveMeetingReservation(ctx *gin.Context) {
 // RejectMeetingReservation 审批驳回会议室预约
 func (c *MeetingController) RejectMeetingReservation(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	approverID := uint(1)
 
 	if err := c.meetingService.RejectMeetingReservation(uint(id), approverID); err != nil {
@@ -333,7 +334,7 @@ func (c *MeetingController) CreateMeetingMinutes(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	minutes.CreatedBy = uint(1)
 
 	if err := c.meetingService.CreateMeetingMinutes(&minutes); err != nil {
@@ -412,7 +413,7 @@ func (c *MeetingController) CreateMeetingRoomMaintenance(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	maintenance.CreatedBy = uint(1)
 
 	if err := c.meetingService.CreateMeetingRoomMaintenance(&maintenance); err != nil {

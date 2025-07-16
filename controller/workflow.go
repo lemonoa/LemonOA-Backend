@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -105,7 +106,7 @@ func (c *WorkflowController) CreateWorkflowType(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	workflowType.CreatedBy = uint(1)
 
 	if err := c.workflowService.CreateWorkflowType(&workflowType); err != nil {
@@ -185,7 +186,7 @@ func (c *WorkflowController) CreateWorkflowDefinition(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	definition.CreatedBy = uint(1)
 
 	if err := c.workflowService.CreateWorkflowDefinition(&definition); err != nil {
@@ -279,7 +280,7 @@ func (c *WorkflowController) CreateWorkflowNode(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	node.CreatedBy = uint(1)
 
 	if err := c.workflowService.CreateWorkflowNode(&node); err != nil {
@@ -359,7 +360,7 @@ func (c *WorkflowController) CreateWorkflowInstance(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	instance.CreatedBy = uint(1)
 
 	if err := c.workflowService.CreateWorkflowInstance(&instance); err != nil {

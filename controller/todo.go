@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,7 +37,11 @@ func (c *TodoController) RegisterRoutes(r *gin.Engine) {
 // GetTodoList 获取待办事项列表
 func (c *TodoController) GetTodoList(ctx *gin.Context) {
 	// TODO: 从JWT中获取userID
-	userID := uint(1)
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 	status, _ := strconv.Atoi(ctx.Query("status"))
 	page, _ := strconv.Atoi(ctx.DefaultQuery("page", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("page_size", "10"))

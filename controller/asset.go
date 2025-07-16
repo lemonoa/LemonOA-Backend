@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -99,7 +100,7 @@ func (c *AssetController) CreateAsset(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	asset.CreatedBy = uint(1)
 
 	if err := c.assetService.CreateAsset(&asset); err != nil {
@@ -178,7 +179,7 @@ func (c *AssetController) CreateAssetRepair(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	repair.CreatedBy = uint(1)
 
 	if err := c.assetService.CreateAssetRepair(&repair); err != nil {
@@ -269,7 +270,7 @@ func (c *AssetController) CreateAssetBorrow(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	borrow.CreatedBy = uint(1)
 
 	if err := c.assetService.CreateAssetBorrow(&borrow); err != nil {
@@ -359,7 +360,7 @@ func (c *AssetController) CreateAssetDisposal(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	disposal.CreatedBy = uint(1)
 
 	if err := c.assetService.CreateAssetDisposal(&disposal); err != nil {

@@ -7,6 +7,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/lemonoa/LemonOA-Go/middleware"
 
@@ -119,8 +120,13 @@ func (c *AttendanceController) CreateAttendanceRule(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	rule.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	rule.CreatedBy = userID
 
 	if err := c.attendanceService.CreateAttendanceRule(&rule); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -506,8 +512,12 @@ func (c *AttendanceController) DeleteBusinessTripApplication(ctx *gin.Context) {
 // ApproveLeaveApplication 审批请假申请
 func (c *AttendanceController) ApproveLeaveApplication(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
-	approverID := uint(1)
+	// 从JWT中获取当前用户ID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.attendanceService.ApproveLeaveApplication(uint(id), approverID); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -520,8 +530,12 @@ func (c *AttendanceController) ApproveLeaveApplication(ctx *gin.Context) {
 // RejectLeaveApplication 驳回请假申请
 func (c *AttendanceController) RejectLeaveApplication(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
-	approverID := uint(1)
+	// 从JWT中获取当前用户ID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.attendanceService.RejectLeaveApplication(uint(id), approverID); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -534,8 +548,12 @@ func (c *AttendanceController) RejectLeaveApplication(ctx *gin.Context) {
 // ApproveOvertimeApplication 审批加班申请
 func (c *AttendanceController) ApproveOvertimeApplication(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
-	approverID := uint(1)
+	// 从JWT中获取当前用户ID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.attendanceService.ApproveOvertimeApplication(uint(id), approverID); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -548,8 +566,12 @@ func (c *AttendanceController) ApproveOvertimeApplication(ctx *gin.Context) {
 // RejectOvertimeApplication 驳回加班申请
 func (c *AttendanceController) RejectOvertimeApplication(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
-	approverID := uint(1)
+	// 从JWT中获取当前用户ID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.attendanceService.RejectOvertimeApplication(uint(id), approverID); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -562,8 +584,12 @@ func (c *AttendanceController) RejectOvertimeApplication(ctx *gin.Context) {
 // ApproveBusinessTripApplication 审批出差申请
 func (c *AttendanceController) ApproveBusinessTripApplication(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
-	approverID := uint(1)
+	// 从JWT中获取当前用户ID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.attendanceService.ApproveBusinessTripApplication(uint(id), approverID); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -576,8 +602,12 @@ func (c *AttendanceController) ApproveBusinessTripApplication(ctx *gin.Context) 
 // RejectBusinessTripApplication 驳回出差申请
 func (c *AttendanceController) RejectBusinessTripApplication(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
-	approverID := uint(1)
+	// 从JWT中获取当前用户ID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.attendanceService.RejectBusinessTripApplication(uint(id), approverID); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

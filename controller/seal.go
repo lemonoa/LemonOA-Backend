@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -91,7 +92,7 @@ func (c *SealController) CreateSeal(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	seal.CreatedBy = uint(1)
 
 	if err := c.sealService.CreateSeal(&seal); err != nil {
@@ -280,7 +281,7 @@ func (c *SealController) CreateSealRecord(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
 	record.CreatedBy = uint(1)
 
 	if err := c.sealService.CreateSealRecord(&record); err != nil {

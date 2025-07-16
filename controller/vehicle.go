@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -134,8 +135,13 @@ func (c *VehicleController) CreateVehicle(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	vehicle.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	vehicle.CreatedBy = userID
 
 	if err := c.vehicleService.CreateVehicle(&vehicle); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -213,8 +219,13 @@ func (c *VehicleController) CreateVehicleRepair(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	repair.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	repair.CreatedBy = userID
 
 	if err := c.vehicleService.CreateVehicleRepair(&repair); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -303,8 +314,13 @@ func (c *VehicleController) CreateVehicleMaintenance(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	maintenance.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	maintenance.CreatedBy = userID
 
 	if err := c.vehicleService.CreateVehicleMaintenance(&maintenance); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -392,8 +408,13 @@ func (c *VehicleController) CreateVehicleMileage(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	mileage.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	mileage.CreatedBy = userID
 
 	if err := c.vehicleService.CreateVehicleMileage(&mileage); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -471,8 +492,13 @@ func (c *VehicleController) CreateVehicleExpense(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	expense.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	expense.CreatedBy = userID
 
 	if err := c.vehicleService.CreateVehicleExpense(&expense); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -550,8 +576,13 @@ func (c *VehicleController) CreateVehicleViolation(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	violation.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	violation.CreatedBy = userID
 
 	if err := c.vehicleService.CreateVehicleViolation(&violation); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -648,8 +679,13 @@ func (c *VehicleController) CreateVehicleAccident(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	accident.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	accident.CreatedBy = userID
 
 	if err := c.vehicleService.CreateVehicleAccident(&accident); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -746,8 +782,13 @@ func (c *VehicleController) CreateVehicleApplication(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	application.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	application.CreatedBy = userID
 
 	if err := c.vehicleService.CreateVehicleApplication(&application); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -847,8 +888,13 @@ func (c *VehicleController) CreateVehicleReturn(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	vehicleReturn.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	vehicleReturn.CreatedBy = userID
 
 	if err := c.vehicleService.CreateVehicleReturn(&vehicleReturn); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

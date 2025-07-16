@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/lemonoa/LemonOA-Go/middleware"
 
@@ -86,8 +87,13 @@ func (c *DocumentController) CreateDocument(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	document.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	document.CreatedBy = userID
 
 	if err := c.documentService.CreateDocument(&document); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -154,8 +160,12 @@ func (c *DocumentController) ApproveDocument(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	approverID := uint(1)
+	// 从JWT中获取当前用户ID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.documentService.ApproveDocument(uint(id), approverID, data.Comment); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -176,8 +186,12 @@ func (c *DocumentController) RejectDocument(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	approverID := uint(1)
+	// 从JWT中获取当前用户ID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.documentService.RejectDocument(uint(id), approverID, data.Comment); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -195,9 +209,14 @@ func (c *DocumentController) DistributeDocument(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 	for i := range distributions {
-		distributions[i].CreatedBy = uint(1)
+		distributions[i].CreatedBy = userID
 	}
 
 	if err := c.documentService.DistributeDocument(distributions); err != nil {
@@ -211,8 +230,12 @@ func (c *DocumentController) DistributeDocument(ctx *gin.Context) {
 // ReadDocument 阅读公文
 func (c *DocumentController) ReadDocument(ctx *gin.Context) {
 	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 32)
-	// TODO: 从JWT中获取当前用户ID
-	receiverID := uint(1)
+	// 从JWT中获取当前用户ID
+	receiverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.documentService.ReadDocument(uint(id), receiverID); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -230,8 +253,13 @@ func (c *DocumentController) ArchiveDocument(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	archive.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	archive.CreatedBy = userID
 
 	if err := c.documentService.ArchiveDocument(&archive); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -249,8 +277,13 @@ func (c *DocumentController) BorrowDocument(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	borrow.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	borrow.CreatedBy = userID
 
 	if err := c.documentService.BorrowDocument(&borrow); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
