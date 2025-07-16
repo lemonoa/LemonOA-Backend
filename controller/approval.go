@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -225,8 +226,12 @@ func (c *ApprovalController) DeleteApprovalNode(ctx *gin.Context) {
 
 // GetApprovalRecordList 获取审批记录列表
 func (c *ApprovalController) GetApprovalRecordList(ctx *gin.Context) {
-	// TODO: 从JWT中获取userID
-	userID := uint(1)
+	// 从JWT中获取userID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 	status, _ := strconv.Atoi(ctx.Query("status"))
 	page, _ := strconv.Atoi(ctx.DefaultQuery("page", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("page_size", "10"))
@@ -251,8 +256,13 @@ func (c *ApprovalController) CreateApprovalRecord(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取userID
-	record.ApplicantID = uint(1)
+	// 从JWT中获取userID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	record.ApplicantID = userID
 
 	if err := c.approvalService.CreateApprovalRecord(&record); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -274,8 +284,12 @@ func (c *ApprovalController) ApproveRecord(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取userID
-	approverID := uint(1)
+	// 从JWT中获取userID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.approvalService.ApproveRecord(uint(id), req.NodeID, approverID, req.Comment); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -297,8 +311,12 @@ func (c *ApprovalController) RejectRecord(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取userID
-	approverID := uint(1)
+	// 从JWT中获取userID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.approvalService.RejectRecord(uint(id), req.NodeID, approverID, req.Comment); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -310,8 +328,12 @@ func (c *ApprovalController) RejectRecord(ctx *gin.Context) {
 
 // GetPendingApprovalList 获取待审批列表
 func (c *ApprovalController) GetPendingApprovalList(ctx *gin.Context) {
-	// TODO: 从JWT中获取userID
-	approverID := uint(1)
+	// 从JWT中获取userID
+	approverID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 	page, _ := strconv.Atoi(ctx.DefaultQuery("page", "1"))
 	pageSize, _ := strconv.Atoi(ctx.DefaultQuery("page_size", "10"))
 

@@ -6,6 +6,7 @@ import (
 
 	"github.com/lemonoa/LemonOA-Go/model"
 	"github.com/lemonoa/LemonOA-Go/service"
+	"github.com/lemonoa/LemonOA-Go/utils"
 
 	"github.com/lemonoa/LemonOA-Go/middleware"
 
@@ -95,7 +96,11 @@ func (c *AuthController) Login(ctx *gin.Context) {
 // GetUserInfo 获取用户信息
 func (c *AuthController) GetUserInfo(ctx *gin.Context) {
 	// 从JWT中获取userID
-	userID := uint(1) // TODO: 从JWT中获取
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	user, err := c.authService.GetUserInfo(userID)
 	if err != nil {
@@ -109,7 +114,11 @@ func (c *AuthController) GetUserInfo(ctx *gin.Context) {
 // GetUserPermissions 获取用户权限列表
 func (c *AuthController) GetUserPermissions(ctx *gin.Context) {
 	// 从JWT中获取userID
-	userID := uint(1) // TODO: 从JWT中获取
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	permissions, err := c.authService.GetUserPermissions(userID)
 	if err != nil {
@@ -133,7 +142,11 @@ func (c *AuthController) ChangePassword(ctx *gin.Context) {
 	}
 
 	// 从JWT中获取userID
-	userID := uint(1) // TODO: 从JWT中获取
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	if err := c.authService.ChangePassword(userID, params.OldPassword, params.NewPassword); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -170,8 +183,13 @@ func (c *AuthController) CreateUser(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	user.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	user.CreatedBy = userID
 
 	if err := c.authService.CreateUser(&user); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -248,8 +266,13 @@ func (c *AuthController) CreateRole(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	role.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	role.CreatedBy = userID
 
 	if err := c.authService.CreateRole(&role); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -338,8 +361,13 @@ func (c *AuthController) CreatePermission(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: 从JWT中获取当前用户ID
-	permission.CreatedBy = uint(1)
+	// 从JWT中获取当前用户ID
+	userID, err := utils.GetCurrentUserID(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+	permission.CreatedBy = userID
 
 	if err := c.authService.CreatePermission(&permission); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
